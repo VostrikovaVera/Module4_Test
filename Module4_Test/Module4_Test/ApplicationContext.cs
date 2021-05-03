@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Module4_Test.Entities;
+using Module4_Test.EntityConfigurations;
 
 namespace Module4_Test
 {
@@ -11,12 +13,9 @@ namespace Module4_Test
         {
         }
 
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Office> Offices { get; set; }
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<Title> Titles { get; set; }
-        public DbSet<EmployeeProject> EmployeeProjects { get; set; }
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Artist> Artists { get; set; }
+        public DbSet<Song> Songs { get; set; }
+        public DbSet<Genre> Genres { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,12 +25,9 @@ namespace Module4_Test
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
-            modelBuilder.ApplyConfiguration(new OfficeConfiguration());
-            modelBuilder.ApplyConfiguration(new ProjectConfiguration());
-            modelBuilder.ApplyConfiguration(new TitleConfiguration());
-            modelBuilder.ApplyConfiguration(new EmployeeProjectConfiguration());
-            modelBuilder.ApplyConfiguration(new ClientConfiguration());
+            modelBuilder.ApplyConfiguration(new SongConfiguration());
+            modelBuilder.ApplyConfiguration(new ArtistConfiguration());
+            modelBuilder.ApplyConfiguration(new GenreConfiguration());
         }
     }
 }

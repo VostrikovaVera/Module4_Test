@@ -9,7 +9,17 @@ namespace Module4_Test
         {
             /*await using (var context = new SampleContextFactory().CreateDbContext(args))
             {
+                await new LazyLoadingSamples(context).Query1();
+            }*/
+
+            await using (var context = new SampleContextFactory().CreateDbContext(args))
+            {
                 await new LazyLoadingSamples(context).Query2();
+            }
+
+            /*await using (var context = new SampleContextFactory().CreateDbContext(args))
+            {
+                await new LazyLoadingSamples(context).Query3();
             }*/
         }
     }

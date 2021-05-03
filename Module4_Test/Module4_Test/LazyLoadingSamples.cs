@@ -15,17 +15,53 @@ namespace Module4_Test
             _context = context;
         }
 
-        /*public async Task Query1()
+        public async Task Query1()
         {
-            var employees = await _context.Employees
-                .Select(x => new { Name = $"{x.FirstName} {x.LastName}", Title = x.Title.Name, Location = x.Office.Location })
+            var songs = await _context.Songs
+                .Select(x => new { Title = x.Title, ArtistName = string.Join(" ", x.Artists.Select(a => a.Name)), Genre = x.Genre.Title })
                 .ToListAsync();
 
-            Console.WriteLine("Employee data");
-            foreach (var employee in employees)
+            Console.WriteLine("Songs data");
+            foreach (var song in songs)
             {
-                Console.WriteLine($"Employee name: {employee.Name}. Employee job title: {employee.Title}. Employee location: {employee.Location}.");
+                Console.WriteLine($"Song title: {song.Title}. Artists: {song.ArtistName}. Genre: {song.Genre}.");
             }
-        }*/
+        }
+
+        public async Task Query2()
+        {
+            var songsByGenre = await _context.Songs
+                .GroupBy(s => s.Genre.Title)
+                .Select(x => new { Title = x.Key, NumberOfSongs = x.Count() })
+                .ToListAsync();
+
+            Console.WriteLine("Songs data");
+            foreach (var song in songsByGenre)
+            {
+                Console.WriteLine($"Song title: {song.Title}. Songs in genre: {song.NumberOfSongs}");
+            }
+        }
+
+        public async Task Query3()
+        {
+            var youngestArtist = await _context.Artists
+                .OrderByDescending(a => a.DateOfBirth)
+                .FirstOrDefaultAsync();
+
+            if (youngestArtist != null)
+            {
+                var songs = await _context.Songs
+                .Where(s => s.ReleasedDate < youngestArtist.DateOfBirth)
+                .ToListAsync();
+
+                Console.WriteLine($"Artist: {youngestArtist.Name}");
+
+                Console.WriteLine("Songs data");
+                foreach (var song in songs)
+                {
+                    Console.WriteLine($"Song title: {song.Title}. Release date: {song.ReleasedDate}");
+                }
+            }
+        }
     }
 }
